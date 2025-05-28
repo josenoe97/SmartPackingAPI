@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SmartPacking.Data.Map;
 using SmartPacking.Model;
 
 namespace SmartPacking.Data
@@ -13,6 +14,7 @@ namespace SmartPacking.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new OrderMap());
             base.OnModelCreating(modelBuilder);
         }
     }

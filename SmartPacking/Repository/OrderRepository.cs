@@ -25,7 +25,6 @@ namespace SmartPacking.Repository
         public async Task<List<OrderModel>> SearchAllOrdersAsync()
         {
             return await _context.Orders.ToListAsync();
-
         }
 
         public async Task<OrderModel> SearchForIdAsync(int id)
