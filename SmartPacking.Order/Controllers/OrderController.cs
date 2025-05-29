@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartPacking.Data;
-using SmartPacking.Data.Dto;
 using SmartPacking.Model;
 using SmartPacking.Repository;
 using SmartPacking.Repository.Interfaces;
-using SmartPacking.Service;
-using SmartPacking.Service.Interfaces;
 using System.Threading.Tasks;
 
 namespace SmartPacking.Controllers
@@ -17,28 +14,29 @@ namespace SmartPacking.Controllers
     {
         private readonly IBoxRepository _boxRepository;
 
-        private readonly SmartPackingContext _context;
+        private readonly OrderContext _context;
 
-        private readonly IOrderPackingService _orderPackingService;
-
-        public OrderController(SmartPackingContext context, IBoxRepository boxRepository, IOrderPackingService orderPackingService)
+        public OrderController(OrderContext context, IBoxRepository boxRepository)
         {
             _context = context;
             _boxRepository = boxRepository;
-            _orderPackingService = orderPackingService;
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> Get()
+        //{
+        //    return Ok();
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] List<OrderModel> orders)
         {
-            _context.Orders.AddRange(orders);
-            //_context.SaveChanges();
-
             List<BoxModel> boxList = await _boxRepository.GetAllBoxsAsync();
 
-            var result = _orderPackingService.ProcessOrders(orders, boxList);
+            _context.Orders.AddRange(orders);
+            _context.SaveChanges();
 
-            return Ok(result);
+            return Ok(orders);
         }
     }
 }

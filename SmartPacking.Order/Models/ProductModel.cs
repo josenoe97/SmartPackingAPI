@@ -17,10 +17,10 @@ namespace SmartPacking.Model
         public int Length { get; set; }
         public double Volume => Height * Width * Length;
 
-        #region Relacionamentos
+#region Relacionamentos
         public int OrderModelId { get; set; }
         [JsonIgnore]
         public OrderModel? Order { get; set; }
-        #endregion
+#endregion
     }
 }

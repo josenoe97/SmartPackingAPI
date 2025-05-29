@@ -7,18 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Enums\**" />
     <Compile Remove="NewFolder1\**" />
     <Compile Remove="NewFolder2\**" />
-    <Content Remove="Enums\**" />
+    <Compile Remove="NewFolder\**" />
     <Content Remove="NewFolder1\**" />
     <Content Remove="NewFolder2\**" />
-    <EmbeddedResource Remove="Enums\**" />
+    <Content Remove="NewFolder\**" />
     <EmbeddedResource Remove="NewFolder1\**" />
     <EmbeddedResource Remove="NewFolder2\**" />
-    <None Remove="Enums\**" />
+    <EmbeddedResource Remove="NewFolder\**" />
     <None Remove="NewFolder1\**" />
     <None Remove="NewFolder2\**" />
+    <None Remove="NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="C:\Users\edson\source\repos\SmartPackingAPI\SmartPacking.Order\Program.cs" Link="Program.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +37,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Enums\" />
   </ItemGroup>
 
 </Project>

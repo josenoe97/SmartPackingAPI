@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SmartPacking.Model
+namespace SmartPacking.Box.Model
 {
     public class BoxModel
     {

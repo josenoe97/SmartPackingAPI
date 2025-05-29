@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using SmartPacking.Data;
+
 using SmartPacking.Repository;
 using SmartPacking.Repository.Interfaces;
-using SmartPacking.Service;
-using SmartPacking.Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,12 +16,12 @@ builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("SmartPackingConnection");
 
-builder.Services.AddDbContext<SmartPackingContext>(opts =>
+builder.Services.AddDbContext<OrderContext>(opts =>
     opts.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IBoxRepository, BoxRepository>();
-builder.Services.AddScoped<IOrderPackingService, OrderPackingService>();
+
 
 var app = builder.Build();
 

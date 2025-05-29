@@ -3,12 +3,11 @@ using SmartPacking.Model;
 
 namespace SmartPacking.Data
 {
-    public class SmartPackingContext : DbContext
+    public class OrderContext : DbContext
     {
-        public SmartPackingContext(DbContextOptions<SmartPackingContext> options) : base(options) { }
+        public OrderContext(DbContextOptions<OrderContext> options) : base (options) { }
 
-        public DbSet<OrderModel> Orders { get; set; }
-        public DbSet<BoxModel> Boxs { get; set; }
+        public DbSet<OrderModel> Orders { get; set; } 
         public DbSet<ProductModel> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,16 +22,16 @@ namespace SmartPacking.Data
                 entity.Property(p => p.Height).IsRequired();
                 entity.Property(p => p.Width).IsRequired();
                 entity.Property(p => p.Length).IsRequired();
-                entity.Ignore(p => p.Volume);
+                entity.Ignore(p => p.Volume); 
             });
 
             modelBuilder.Entity<OrderModel>(entity =>
             {
                 entity.HasKey(o => o.Id);
 
-                entity.HasMany(o => o.listProduct)
-                      .WithOne(p => p.Order)
-                      .HasForeignKey(p => p.OrderModelId)
+                entity.HasMany(o => o.listProduct)              
+                      .WithOne(p => p.Order)                    
+                      .HasForeignKey(p => p.OrderModelId)       
                       .OnDelete(DeleteBehavior.Cascade);
 
                 entity.Navigation(o => o.listProduct).UsePropertyAccessMode(PropertyAccessMode.Property);
