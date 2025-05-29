@@ -19,6 +19,7 @@ builder.Services.AddDbContext<SmartPackingContext>(opts =>
     opts.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IBoxRepository, BoxRepository>();
 
 var app = builder.Build();
 
