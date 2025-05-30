@@ -1,6 +1,0 @@
-@SmartPacking_HostAddress = http://localhost:5201
-
-GET {{SmartPacking_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
