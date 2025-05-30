@@ -1,9 +1,5 @@
 # 🕹️ SmartPacking API
 
-**SmartPacking** é uma API RESTful desenvolvida em .NET Core para automatizar o processo de embalagem de pedidos de uma loja online de jogos. Ela calcula e aloca produtos em caixas pré-definidas de forma eficiente, reduzindo custos logísticos e desperdícios de espaço.
-
----
-
 ##  Tecnologias Utilizadas
 
 - [.NET Core](https://dotnet.microsoft.com/)
