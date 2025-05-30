@@ -11,6 +11,6 @@ namespace SmartPacking.Model
         public int Width { get; set; }
         public int Length { get; set; }
 
-        public double Volume => Height * Width * Length;
+        public int Volume => Height * Width * Length;
     }
 }

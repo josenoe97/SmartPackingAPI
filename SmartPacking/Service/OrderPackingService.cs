@@ -1,4 +1,5 @@
-﻿using SmartPacking.Data.Dto;
+﻿using Microsoft.IdentityModel.Tokens;
+using SmartPacking.Data.Dto;
 using SmartPacking.Model;
 using SmartPacking.Service.Interfaces;
 using System.Diagnostics.Eventing.Reader;
@@ -15,33 +16,78 @@ namespace SmartPacking.Service
             {
                 var orderPackingResult = new OrderPackingResultDto() { OrderId = order.Id };
                 orderPackingResult.Boxes = new List<BoxResultDto>();
+                var productOrder = order.listProduct.OrderByDescending(p => p.Volume).ToList();
 
-                var orderVolumeTotal = OrderVolumeTotalCalculator(order);
+                var productBoxList = new List<ProductBoxResultDto>();
 
-                var box = new BoxModel();
+                var boxResultList = new List<BoxResultDto>();
 
-                if (orderVolumeTotal <= boxList[0].Volume)
-                    box = boxList[0];
-                else if (orderVolumeTotal <= boxList[1].Volume)
-                    box = boxList[1];
-                else if (orderVolumeTotal <= boxList[2].Volume)
-                    box = boxList[3];
-
-                var boxResult = new BoxResultDto() { NameBox = box.Name };
-
-                boxResult.Products = new List<ProductBoxResultDto>();
-
-                foreach (var product in order.listProduct)
+                //conversao ProductModel => ProductBoxResultDto
+                foreach (var produto in productOrder)
                 {
-                    var productBoxResult = new ProductBoxResultDto() { Name = product.Name, ProductId = product.Id };
+                    productBoxList.Add(new ProductBoxResultDto
+                    {
+                        Name = produto.Name,
+                        ProductId = produto.Id,
+                        Volume = produto.Volume
 
-                    boxResult.Products.Add(productBoxResult);
+                    });
                 }
 
-                orderPackingResult.Boxes.Add(boxResult);
+                //conversao BoxModel => BoxResultDto
+                foreach (var box in boxList)
+                {
+                    boxResultList.Add(new BoxResultDto(box.Name,box.Volume));
+                }
 
-                result.Add(orderPackingResult);
+                var usedBoxs = new List<BoxResultDto>();
+
+                var volumeTotalProd = OrderVolumeTotalCalculator(order);
+
+                while (volumeTotalProd > 0) 
+                {
+                    if (boxResultList[0].VolMax >= volumeTotalProd)
+                    {
+                        usedBoxs.Add(boxResultList[0]);
+                        volumeTotalProd = volumeTotalProd - boxResultList[0].VolMax;
+                    }
+                    else if (boxResultList[1].VolMax >= volumeTotalProd)
+                    {
+                        usedBoxs.Add(boxResultList[1]);
+                        volumeTotalProd = volumeTotalProd - boxResultList[1].VolMax;
+                    }
+                    else if (boxResultList[2].VolMax <= volumeTotalProd)
+                    {
+                        usedBoxs.Add(boxResultList[2]);
+                        volumeTotalProd = volumeTotalProd - boxResultList[2].VolMax;
+                    }
+                }
+
+                foreach(var usedBox in usedBoxs)
+                {
+
+                    while (!productBoxList.IsNullOrEmpty())
+                    {
+                        var product = productBoxList.Where(x => x.Volume <= usedBox.VolRemaining).FirstOrDefault();
+
+                        if (product != null)
+                        {
+                            usedBox.TryAddProduct(product);
+
+                            productBoxList.Remove(product);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                orderPackingResult.Boxes.AddRange(usedBoxs);
+
+                result.Add(orderPackingResult);      
             }
+            
 
             return result;
         }
@@ -50,5 +96,6 @@ namespace SmartPacking.Service
         {
             return order.listProduct.Sum(x => x.Volume);
         }
+
     }
 }
