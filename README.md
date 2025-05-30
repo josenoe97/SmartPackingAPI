@@ -23,7 +23,7 @@
 
 ## 🛠️ Como Executar
 
-### 2. Clone o repositório
+###  Clone o repositório
 
 ```bash
 git clone https://github.com/seu-usuario/smartpacking.git
