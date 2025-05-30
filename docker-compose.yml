@@ -1,0 +1,31 @@
+services:
+  smartpacking:
+    image: ${DOCKER_REGISTRY-}smartpacking
+    container_name: smartpacking
+    environment:
+     - ASPNETCORE_ENVIRONMENT=Development
+     - ASPNETCORE_URLS=http://+:5000 
+     - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=smartpackingdb;User=sa;Password=admin123;
+
+    build:
+      context: .
+      dockerfile: SmartPacking/Dockerfile
+    ports:
+     - "5000:5000"
+
+
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: smartpacking.db
+    environment: 
+        SA_PASSWORD: "admin123"
+        ACCEPT_EULA: "Y"
+    ports:
+    - "1433:1433"
+    volumes:
+    - sql_data:/var/opt/mssql
+
+volumes:
+  sql_data:
+  
