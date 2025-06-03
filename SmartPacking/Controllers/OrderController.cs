@@ -32,7 +32,7 @@ namespace SmartPacking.Controllers
         public async Task<IActionResult> Post([FromBody] List<OrderModel> orders)
         {
             _context.Orders.AddRange(orders);
-            //_context.SaveChanges();
+            _context.SaveChanges();
 
             List<BoxModel> boxList = await _boxRepository.GetAllBoxsAsync();
 
