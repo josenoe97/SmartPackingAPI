@@ -21,7 +21,7 @@
 
 ###  Clone o repositório
 
-o docker está em outra branch "docker-compose-incompleto", infelizmente não consegui buildar o banco de dados por conta de limitações do meu computador. 
+OBS: o docker está em outra branch "docker-compose-incompleto", infelizmente não consegui buildar o banco de dados por conta de limitações do meu computador. 
 
 ```bash
 git clone https://github.com/seu-usuario/smartpacking.git
